@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Global - zrp meet#2: ETL demo</title>
+    
+    <meta name="description" content="This application is a demo app that uses node streams to extract, transform and push data from two sources, openflights and a gzip csv file containing recipes from kaggle on ElasticSearch for querying and analysis, implementing a simple ETL pipeline." />
+    
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/zrpaplicacoes/demo-etl-pipeline-elasticsearch" target="_blank" class="menu-item" id="repository" >GitHub</a></h2><h3>Modules</h3><ul><li><a href="module-core.html">core</a></li><li><a href="module-core_constants.html">core/constants</a></li><li><a href="module-core_destination.html">core/destination</a><ul class='methods'><li data-type='method'><a href="module-core_destination.html#~generateBulkRequestBody">generateBulkRequestBody</a></li><li data-type='method'><a href="module-core_destination.html#~generateRequestBody">generateRequestBody</a></li><li data-type='method'><a href="module-core_destination.html#~logFailure">logFailure</a></li><li data-type='method'><a href="module-core_destination.html#~post">post</a></li><li data-type='method'><a href="module-core_destination.html#~toElasticSearch">toElasticSearch</a></li></ul></li><li><a href="module-core_source.html">core/source</a><ul class='methods'><li data-type='method'><a href="module-core_source.html#~download">download</a></li></ul></li><li><a href="module-core_transform.html">core/transform</a><ul class='methods'><li data-type='method'><a href="module-core_transform.html#~addTimestamp">addTimestamp</a></li><li data-type='method'><a href="module-core_transform.html#~calories">calories</a></li><li data-type='method'><a href="module-core_transform.html#~stringify">stringify</a></li><li data-type='method'><a href="module-core_transform.html#~toAirtravelRoute">toAirtravelRoute</a></li></ul></li><li><a href="module-lib.html">lib</a></li><li><a href="module-lib_environment.html">lib/environment</a><ul class='members'><li data-type='member'><a href="module-lib_environment.html#.defaultMeta">defaultMeta</a></li><li data-type='member'><a href="module-lib_environment.html#.isDevelopment">isDevelopment</a></li><li data-type='member'><a href="module-lib_environment.html#.isProd">isProd</a></li><li data-type='member'><a href="module-lib_environment.html#.serviceName">serviceName</a></li></ul></li><li><a href="module-lib_logger.html">lib/logger</a><ul class='members'><li data-type='member'><a href="module-lib_logger.html#.logger">logger</a></li><li data-type='member'><a href="module-lib_logger.html#.logLevel">logLevel</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#example01">example01</a></li><li><a href="global.html#example02">example02</a></li><li><a href="global.html#openflightDemo">openflightDemo</a></li><li><a href="global.html#recipesDemo">recipesDemo</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Global</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        
+        </h2>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="example01"><span class="type-signature"></span>example01<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line46">line 46</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Example 1: Download the routes.dat file
+from the server and write it to the disk
+using a stream instead of a full request
+and sync write</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="example02"><span class="type-signature"></span>example02<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line77">line 77</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Example 2: We gonna parse the download stream
+and create objects that represent flight routes
+using the specification provided by openflight.</p>
+<p>All generated objects are then moved to the
+tmp/routes.parsed file</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="openflightDemo"><span class="type-signature">(async) </span>openflightDemo<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line108">line 108</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Main program 1: We gonna parse the download stream,
+create objects that represent flight routes,
+add a timestamp to each route for temporal analysis
+and push data to ElasticSearch.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="recipesDemo"><span class="type-signature">(async) </span>recipesDemo<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line140">line 140</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Main program 2: We gonna extract the zipped file,
+parse every csv row into objects,
+create objects that represent recipes
+and push data to ElasticSearch.</p>
+<p>BONUS: We can query for recipes using
+the queryES function to check if recipes
+are actually indexed.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Thu Dec 05 2019 19:41:32 GMT-0200 (Brasilia Summer Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

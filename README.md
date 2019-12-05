@@ -27,9 +27,11 @@ This repository is under the MIT license. For proper information about this lice
 
 First of all, install all deps using `npm i`.
 
-Copy the `.env.example` file to `.env` and replace the variables with your own variables. After setuping the project, you can run the demo using `npm start`.
+Copy the `.env.example` file to `.env` and replace the variables with your own variables. After setuping the project, you can run the demo using `npm start`. This will open a CLI, just choose the desired option and await until execution completes!
 
-> A set of examples is available on `<root>/index.js`
+## Documentation
+
+For documentation about the latest version, run `npm run docs` and open `http://localhost:2222`.
 
 ## Environment Variables
 

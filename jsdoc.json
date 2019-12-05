@@ -24,8 +24,8 @@
     "static": true,
     "sort": true,
     "meta": {
-      "title": "Farquest",
-      "description": "A lambda to kick off AWS Fargate Tasks from an SQS Event Source, return their response and handle task lifecycle."
+      "title": "zrp meet#2: ETL demo",
+      "description": "This application is a demo app that uses node streams to extract, transform and push data from two sources, openflights and a gzip csv file containing recipes from kaggle on ElasticSearch for querying and analysis, implementing a simple ETL pipeline."
     },
     "search": true,
     "collapse": false,
@@ -33,8 +33,8 @@
     "removeQuotes": "none",
     "scripts": [],
     "menu": {
-      "GitHub repo": {
-        "href": "https://github.com/Emethium/farquest.git",
+      "GitHub": {
+        "href": "https://github.com/zrpaplicacoes/demo-etl-pipeline-elasticsearch",
         "target": "_blank",
         "class": "menu-item",
         "id": "repository"
@@ -42,4 +42,3 @@
     }
   }
 }
-
