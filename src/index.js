@@ -1,3 +1,9 @@
+/**
+ * Core
+ *
+ * @module core
+ */
+
 // Imports
 const { routesUrl } = require("./constants")
 const { download } = require("./source")

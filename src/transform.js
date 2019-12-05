@@ -1,3 +1,10 @@
+/**
+ * Implement stream functionally
+ * related to stream.Transform
+ *
+ * @module core/transform
+ */
+
 // Dependencies
 const stream = require("stream")
 const parallel = require("parallel-stream")

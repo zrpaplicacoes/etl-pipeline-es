@@ -14,6 +14,9 @@ if (process.env.NODE_ENV !== "production") {
 const fs = require("fs")
 const zlib = require("zlib")
 const csv = require("csv-parser")
+const chalk = require("chalk")
+const clear = require("clear")
+const inquirer = require("inquirer")
 
 // Lib
 const { logger } = require("./lib")
@@ -217,9 +220,62 @@ async function recipesDemo() {
 }
 
 /*
- * Demos
+ * CLI
  */
-// example01()
-// example02()
-// openflightDemo()
-// recipesDemo()
+clear()
+
+// Print welcome
+console.log(chalk.magenta("Welcome to the meet#2 ETL Demo..."))
+
+// Warnings
+console.log(chalk.whiteBright("You can exit with Ctrl+C 🏃‍♂️"))
+
+// Prompt for example
+inquirer
+  .prompt([
+    {
+      type: "list",
+      name: "example",
+      message: "Choose your demo:",
+      choices: [
+        "stream-download",
+        "download-parse",
+        "openflight-to-es",
+        "recipes-to-es",
+      ],
+      default: "stream-download",
+    },
+  ])
+  .then(({ example }) => {
+    let demo
+
+    switch (example) {
+      case "stream-download":
+        demo = example01
+        break
+      case "download-parse":
+        demo = example02
+        break
+      case "openflight-to-es":
+        demo = openflightDemo
+        break
+      case "recipes-to-es":
+        demo = recipesDemo
+        break
+      default:
+        console.error(
+          chalk.red("An unknown option was selected! Please, try again... 🤓"),
+        )
+        break
+    }
+
+    try {
+      demo()
+    } catch (e) {
+      console.error(
+        chalk.red(
+          "❌ Something is broken! Please, submit a PR if you've an issue!",
+        ),
+      )
+    }
+  })

@@ -1,3 +1,10 @@
+/**
+ * Implement stream functionally
+ * related to stream.Readable
+ *
+ * @module core/source
+ */
+
 // Deps
 const axios = require("axios")
 

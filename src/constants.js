@@ -1,4 +1,11 @@
 /**
+ * Every constant and env var
+ * required for running the application
+ *
+ * @module core/constants
+ */
+
+/**
  * Openflight database routes data url
  */
 const routesUrl =

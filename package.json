@@ -1,11 +1,14 @@
 {
   "name": "@zrpaplicacoes/demo-etl-pipeline-elasticsearch",
   "version": "1.0.0",
-  "description": "A demo application for extracting and transforming data on the fly from the openflights database and push it to ElasticSearch",
+  "description": "This application is a demo app that uses node streams to extract, transform and push data from two sources, openflights and a gzip csv file containing recipes from kaggle on ElasticSearch for querying and analysis, implementing a simple ETL pipeline.",
   "main": "index.js",
   "scripts": {
     "commit": "git-cz",
-    "debug": "nodemon --inspect-brk=0.0.0.0:9229 -w src/ -w index.js index.js",
+    "debug": "nodemon --inspect-brk=0.0.0.0:9229 -w src/ -w lib/ -w index.js index.js",
+    "docs": "http-server -p 2222 -c-1 docs/",
+    "docs:generate": "jsdoc -c jsdoc.json src/*.js lib/*.js index.js",
+    "docs:watch": "nodemon --exec \"jsdoc -c jsdoc.json src/*.js lib/*.js index.js && http-server -p 2222 -c-1 docs/\" -w src/ -w lib/ -w index.js",
     "release": "standard-version",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -32,7 +35,10 @@
   "dependencies": {
     "aws-sdk": "^2.585.0",
     "axios": "^0.19.0",
+    "chalk": "^3.0.0",
+    "clear": "^0.1.0",
     "csv-parser": "^2.3.2",
+    "inquirer": "^7.0.0",
     "parallel-stream": "^1.1.2",
     "winston": "^3.2.1"
   },

@@ -1,3 +1,10 @@
+/**
+ * Implement stream functionally
+ * related to stream.Writable
+ *
+ * @module core/destination
+ */
+
 // Dependencies
 const AWS = require("aws-sdk")
 const parallel = require("parallel-stream")
@@ -163,9 +170,9 @@ function logFailure(error, failedItems) {
 }
 
 /**
- * A transform stream that returns
- * null on internal.Transform, resulting
- * on stream finish
+ * A write stream that writes incoming
+ * data to ElasticSearch using POST /_bulk
+ *
  */
 function toElasticSearch({ indexPrefix, type }) {
   const queue = []
