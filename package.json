@@ -1,6 +1,6 @@
 {
   "name": "@zrpaplicacoes/demo-etl-pipeline-elasticsearch",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "This application is a demo app that uses node streams to extract, transform and push data from two sources, openflights and a gzip csv file containing recipes from kaggle on ElasticSearch for querying and analysis, implementing a simple ETL pipeline.",
   "main": "index.js",
   "scripts": {
