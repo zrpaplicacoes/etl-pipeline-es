@@ -1,0 +1,11 @@
+# Disallowed
+/node_modules
+.env*
+/tmp*
+/temp*
+/.vscode/*
+
+# Allowed
+!/.vscode/launch.json
+!.env.example
+

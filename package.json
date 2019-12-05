@@ -1,0 +1,58 @@
+{
+  "name": "@zrpaplicacoes/demo-etl-pipeline-elasticsearch",
+  "version": "1.0.0",
+  "description": "A demo application for extracting and transforming data on the fly from the openflights database and pushing it to ElasticSearch",
+  "main": "index.js",
+  "scripts": {
+    "commit": "git-cz",
+    "debug": "nodemon --inspect-brk=0.0.0.0:9229 -w src/ -w index.js index.js",
+    "release": "standard-version",
+    "start": "nodemon --inspect=0.0.0.0:9229 -w src/ -w index.js index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/zrpaplicacoes/demo-etl-pipeline-elasticsearch.git"
+  },
+  "keywords": [
+    "nodejs",
+    "stream",
+    "elasticsearch",
+    "demo"
+  ],
+  "author": "Pedro Gryzinsky <p@zrp.com.br>",
+  "contributors": [
+    "Pedro Gryzinsky <p@zrp.com.br>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zrpaplicacoes/demo-etl-pipeline-elasticsearch/issues"
+  },
+  "homepage": "https://github.com/zrpaplicacoes/demo-etl-pipeline-elasticsearch#readme",
+  "dependencies": {
+    "aws-sdk": "^2.585.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.0.2",
+    "docdash": "^1.1.1",
+    "dotenv": "^8.2.0",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "http-server": "^0.12.0",
+    "jsdoc": "^3.6.3",
+    "nodemon": "^2.0.1",
+    "prettier": "^1.19.1",
+    "standard-version": "^7.0.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

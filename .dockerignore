@@ -1,0 +1,22 @@
+# Development
+.vscode
+
+# Project metadata
+*.md
+*.png
+
+# Environment
+*.env
+*env
+
+# Docker
+*Dockerfile*
+docker-compose.yml
+
+# Others
+tmp
+temp
+
+# Binaries
+bin
+
