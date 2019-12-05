@@ -1,13 +1,13 @@
 {
   "name": "@zrpaplicacoes/demo-etl-pipeline-elasticsearch",
   "version": "1.0.0",
-  "description": "A demo application for extracting and transforming data on the fly from the openflights database and pushing it to ElasticSearch",
+  "description": "A demo application for extracting and transforming data on the fly from the openflights database and push it to ElasticSearch",
   "main": "index.js",
   "scripts": {
     "commit": "git-cz",
     "debug": "nodemon --inspect-brk=0.0.0.0:9229 -w src/ -w index.js index.js",
     "release": "standard-version",
-    "start": "nodemon --inspect=0.0.0.0:9229 -w src/ -w index.js index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,6 +31,9 @@
   "homepage": "https://github.com/zrpaplicacoes/demo-etl-pipeline-elasticsearch#readme",
   "dependencies": {
     "aws-sdk": "^2.585.0",
+    "axios": "^0.19.0",
+    "csv-parser": "^2.3.2",
+    "parallel-stream": "^1.1.2",
     "winston": "^3.2.1"
   },
   "devDependencies": {

@@ -1,3 +1,225 @@
-const { logger } = require("./lib/logger")
+/**
+ * This is the main entrypoint for the demo application.
+ *
+ * Some examples are under \/** *\/ blocks, feel free
+ * to change this code and run other examples
+ */
 
-logger.error("Starting DEMO application...")
+// Try to load env vars from .env file if running locally
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config()
+}
+
+// Dependencies
+const fs = require("fs")
+const zlib = require("zlib")
+const csv = require("csv-parser")
+
+// Lib
+const { logger } = require("./lib")
+
+// Source
+const {
+  routesUrl,
+  download,
+  toAirtravelRoute,
+  calories,
+  stringify,
+  addTimestamp,
+  toElasticSearch,
+} = require("./src")
+
+logger.debug("Starting Demo Application...")
+
+// Create tmp dir if one does not exist
+if (!fs.existsSync("./tmp")) fs.mkdirSync("./tmp")
+
+/**
+ * Example 1: Download the routes.dat file
+ * from the server and write it to the disk
+ * using a stream instead of a full request
+ * and sync write
+ */
+function example01() {
+  logger.warn("Starting Example 01...")
+
+  // Create a write stream destination
+  const output = fs.createWriteStream("./tmp/routes.dat", {
+    encoding: "utf8",
+    autoClose: true,
+  })
+
+  // Pipe data from the incoming response to
+  // the file, writing thefore the response content
+  download(routesUrl).then(stream =>
+    stream
+      .pipe(output)
+      .on("close", () => {
+        logger.info("Example 1 executed. Created file tmp/routes.dat")
+      })
+      .on("error", err => {
+        logger.error(`Stream failed due to ${err.message}`)
+      }),
+  )
+}
+
+/**
+ * Example 2: We gonna parse the download stream
+ * and create objects that represent flight routes
+ * using the specification provided by openflight.
+ *
+ * All generated objects are then moved to the
+ * tmp/routes.parsed file
+ */
+function example02() {
+  logger.warn("Starting Example 02...")
+
+  // Create write stream to destination file
+  const output = fs.createWriteStream("./tmp/routes.parsed")
+
+  // Pipe data from the incoming response to
+  // the transform, convert into objects, JSON.stringify
+  // this objects and write the result to output
+  download(routesUrl).then(stream =>
+    stream
+      .pipe(toAirtravelRoute())
+      .pipe(stringify())
+      .pipe(output)
+      .on("close", () => {
+        logger.info(
+          "Example 2 executed. Logged all parsed chunks into tmp/routes.parsed",
+        )
+      })
+      .on("error", err => {
+        logger.error(`Stream failed due to ${err.message}`)
+      }),
+  )
+}
+
+/**
+ * Main program 1: We gonna parse the download stream,
+ * create objects that represent flight routes,
+ * add a timestamp to each route for temporal analysis
+ * and push data to ElasticSearch.
+ */
+async function openflightDemo() {
+  logger.warn("Starting OpenFlight Demo...")
+
+  download(routesUrl).then(stream => {
+    stream
+      .pipe(toAirtravelRoute())
+      .pipe(addTimestamp())
+      .pipe(
+        toElasticSearch({
+          indexPrefix: "of-routes-",
+          type: "openflights/routes",
+        }),
+      )
+      .on("end", () => {
+        logger.info("Stream completed! Uploaded flight routes!")
+      })
+      .on("error", err => {
+        logger.error(`Stream failed due to ${err.message}`)
+      })
+  })
+}
+
+/**
+ * Main program 2: We gonna extract the zipped file,
+ * parse every csv row into objects,
+ * create objects that represent recipes
+ * and push data to ElasticSearch.
+ *
+ * BONUS: We can query for recipes using
+ * the queryES function to check if recipes
+ * are actually indexed.
+ */
+async function recipesDemo() {
+  logger.warn("Starting Recipes Demo...")
+
+  const recipes = fs.createReadStream("recipes.gz")
+
+  const csvParser = csv({
+    headers: [
+      "name",
+      "id",
+      "minutes",
+      "contributorId",
+      "submitted",
+      "tags",
+      "nutrition",
+      "nSteps",
+      "steps",
+      "description",
+      "ingredients",
+      "nIngredients",
+    ],
+    separator: ",",
+    /*
+      For strings or unknown:
+        remove duplicate whitespaces, so words
+        like X=A\s\s\sB become X=A\s\B
+
+      For integers:
+        parse to int or float
+
+      For arrays:
+        number: JSON.parse the array value
+        strings: do nothing
+
+      For dates:
+        convert into ISO date
+    */
+    mapValues: ({ header, value }) => {
+      // skip header
+      if (header === value) return value
+
+      switch (header) {
+        case "contributorId":
+        case "id":
+        case "minutes":
+        case "nIngredients":
+        case "nSteps":
+          return parseInt(value || "", 10)
+        case "nutrition":
+          return JSON.parse(value)
+        case "ingredients":
+        case "steps":
+        case "tags":
+          return value
+        case "submitted":
+          return new Date(value).toISOString()
+        case "description":
+        case "name":
+        default:
+          return (value || "").replace(/\s+/g, " ")
+      }
+    },
+    skipLines: 1, // skip header
+  })
+
+  recipes
+    .pipe(zlib.createGunzip()) // unzip file
+    .pipe(csvParser) // parse CSV lines to object
+    .pipe(calories())
+    .pipe(
+      toElasticSearch({
+        indexPrefix: "recipes-",
+        type: "recipes",
+      }),
+    )
+    .on("end", () => {
+      logger.info("Stream completed! Uploaded recipes!")
+    })
+    .on("error", err => {
+      logger.error(`Stream failed due to ${err.message}`)
+    })
+}
+
+/*
+ * Demos
+ */
+// example01()
+// example02()
+// openflightDemo()
+// recipesDemo()

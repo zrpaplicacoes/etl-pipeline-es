@@ -1,6 +1,7 @@
 # Disallowed
 /node_modules
 .env*
+.DS_Store
 /tmp*
 /temp*
 /.vscode/*
