@@ -1,8 +1,35 @@
-# Data Load to ES (Meet #2)
+<p align="center">
+  <img src="./logo.png" style="width: 500px;">
+</p>
+
+<p align="center" style="padding-top: 64px; padding-bottom: 32px;">
+  <a href="https://zrp.com.br" target="_blank">
+    <img
+      alt="About"
+      src="https://img.shields.io/badge/made%20with%20love-zrp-orange"
+    />
+  </a>
+
+  <a href="https://zrp.com.br/jobs" target="_blank">
+     <img
+      alt="Join the Team"
+      src="https://img.shields.io/badge/join%20the%20team-jobs-blue"
+    />
+  </a>
+
+  <a href="https://zrp.revelo.com.br/" target="_blank">
+     <img
+      alt="Job Opportunities"
+      src="https://img.shields.io/badge/revelo%20-opportunities-red"
+    />
+  </a>
+</p>
+
+# ETL with ES (Revelo Edition)
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-The presentation for this repository can be found [here](https://docs.google.com/presentation/d/1nzPfF8aO1JO2yAXRRfd4pH_6ebVY273TNNWVuV9GCSQ/edit?usp=sharing) 📚.
+The presentation for this repository can be found [here](https://docs.google.com/presentation/d/156Cpbt6ZYnDWdzMQwdhkmnOc5h-7cAe_fM6nQMxDHXA/edit?usp=sharing) 📚.
 
 <p align="center">
   <img src="demo.gif?raw=true"/>
