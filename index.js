@@ -219,6 +219,44 @@ async function recipesDemo() {
     })
 }
 
+function findExample(name) {
+  let demo
+
+  switch (name) {
+    case "stream-download":
+      demo = example01
+      break
+    case "download-parse":
+      demo = example02
+      break
+    case "openflight-to-es":
+      demo = openflightDemo
+      break
+    case "recipes-to-es":
+      demo = recipesDemo
+      break
+    default:
+      console.error(
+        chalk.red("An unknown option was selected! Please, try again... 🤓"),
+      )
+      break
+  }
+
+  return demo
+}
+
+if (process.env.SKIP_CLI_WITH) {
+  const fn = findExample(process.env.SKIP_CLI_WITH)
+
+  try {
+    fn()
+  } catch (e) {
+    chalk.red("❌ Something is broken! Please, submit a PR if you've an issue!")
+  }
+
+  return
+}
+
 /*
  * CLI
  */
@@ -247,27 +285,7 @@ inquirer
     },
   ])
   .then(({ example }) => {
-    let demo
-
-    switch (example) {
-      case "stream-download":
-        demo = example01
-        break
-      case "download-parse":
-        demo = example02
-        break
-      case "openflight-to-es":
-        demo = openflightDemo
-        break
-      case "recipes-to-es":
-        demo = recipesDemo
-        break
-      default:
-        console.error(
-          chalk.red("An unknown option was selected! Please, try again... 🤓"),
-        )
-        break
-    }
+    let demo = findExample(example)
 
     try {
       demo()

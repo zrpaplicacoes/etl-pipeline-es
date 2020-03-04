@@ -8,6 +8,9 @@
       "cwd": "${workspaceRoot}",
       "runtimeExecutable": "npm",
       "restart": true,
+      "env": {
+        "SKIP_CLI_WITH": "stream-download"
+      },
       "runtimeArgs": [
         "run-script",
         "debug"
